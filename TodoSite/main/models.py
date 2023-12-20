@@ -7,14 +7,13 @@ from django.db import models
 class Task(models.Model):
 
     STATUS_CHOICES = (
-        ('Новая Задача', 'Новая Задача'),
-        ('Готово', 'Готово'),
+        ('Не начато', 'Не начато'),
         ('В работе', 'В работе'),
+        ('Готово', 'Готово'),
     )
 
     IMPORTANCE = (
-        ('Важно', 'Важно'),
-        ('Не очень', 'Не очень'),
+        ('Срочно', 'Срочно'),
         ('Не срочно', 'Не срочно'),
     )
 
@@ -23,7 +22,7 @@ class Task(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Создатель')
     date_of_staging = models.DateTimeField('Дата создания', default=datetime.now, null=True, blank=True)
     importance = models.CharField('Важность', max_length=50, choices=IMPORTANCE, default='Не очень')
-    comments = models.TextField('Комментарии', null=True, blank=True)
+    # comments = models.TextField('Комментарии', null=True, blank=True)
     # executor = models.CharField('Исполнители', max_length=50, )
     status = models.CharField('Статус', max_length=50, choices=STATUS_CHOICES, default='Новая Задача')
 
@@ -40,8 +39,18 @@ class Task(models.Model):
         print("Task saved.")
 
     def __str__(self):
-        return f"{self.title} {self.task} {self.date_of_staging} {self.importance} {self.comments}"
+        return f"{self.title} {self.task} {self.date_of_staging} {self.importance}"
+        # {self.comments}
 
     class Meta:
         verbose_name='Задача'
         verbose_name_plural='Задачи'
+
+class Comment(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="comment")
+    name = models.CharField(max_length=255)
+    body = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s - %s' %  (self.task.title, self.name)

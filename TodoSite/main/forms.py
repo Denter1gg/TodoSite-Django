@@ -8,7 +8,11 @@ class TaskForm(ModelForm):
 
     input_formats=['%d.%m.%Y'],
 
-    author = forms.ModelChoiceField(queryset=User.objects.all())
+    author = forms.ModelChoiceField(queryset=User.objects.all(), initial=User.objects.first(), required=False,
+                                    widget=forms.Select(attrs={'style': 'display:none;', }))
+
+
+
 
 
     def __init__(self, *args, **kwargs):
@@ -18,7 +22,7 @@ class TaskForm(ModelForm):
 
     class Meta:
         model = Task
-        fields = ["title", "task", "importance", "date_of_staging", "comments", "status"]
+        fields = ["title", "task", "importance", "author", "date_of_staging", "status"] # "comments",
         widgets = {
             "title": TextInput(attrs={
                 'class':'form-control',
@@ -26,7 +30,7 @@ class TaskForm(ModelForm):
             }),
             "task": Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Введите задачу',
+                'placeholder': 'Опишите свою задачу',
             }),
             "importance": Select(choices=Task.IMPORTANCE, attrs={
                 'class': 'form-control',
@@ -35,10 +39,10 @@ class TaskForm(ModelForm):
                 'class': 'form-control',
                 'disabled': 'True',
             }),
-            "comments": Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': '',
-            }),
+            # "comments": Textarea(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'Комментарии',
+            # }),
             "status": Select(choices=Task.STATUS_CHOICES, attrs={
                 'class': 'form-control',
             }),

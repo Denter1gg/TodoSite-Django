@@ -15,7 +15,8 @@
             <h5 class="title">Создание задачи</h5>
           </div>
           <div class="card-body">
-            <form>
+            <form method="post">
+              {% csrf_token %}
               <div class="row">
                 <div class="col-md-5 pr-md-1">
                   <div class="form-group">
@@ -47,6 +48,7 @@
                     <label>Статус</label>
                     {{ add_task_form.status }}
                 </div>
+                    {{ add_task_form.author }}
 <!--                <div class="col-md-6 pl-md-1">-->
 <!--                  <div class="form-group">-->
 <!--                    <label>Комментарии</label>-->
@@ -91,10 +93,12 @@
 <!--                  </div>-->
 <!--                </div>-->
 <!--              </div>-->
+
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-fill btn-primary">Создать</button>
+              </div>
             </form>
-          </div>
-          <div class="card-footer">
-            <button type="submit" class="btn btn-fill btn-primary">Создать</button>
           </div>
         </div>
       </div>

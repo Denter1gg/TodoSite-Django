@@ -24,13 +24,13 @@
                 <thead class=" text-primary">
                   <tr>
                     <th>
-                      Название
-                    </th>
-                    <th>
                       Задача
                     </th>
                     <th>
-                      срок
+                      Описание
+                    </th>
+                    <th>
+                      Дата создания
                     </th>
                     <th>
                       Автор
@@ -65,11 +65,22 @@
                     <td>
                       {{ task.importance }}
                     </td>
-<!--                <td>-->
-<!--                  {{ task.status }}-->
-<!--                </td>-->
                     <td>
-                      {{ task.comments }}
+                      {{ task.status }}
+                    </td>
+                    <td>
+                      {% if not task.comments.all %}
+<!--                            Комментариев нет -->
+                      <a href="#">Добавить</a>
+                      {% else %}
+                          {% for comments in task.comments.all %}
+                              {{ comment.name }} -
+                              {{ comment.date_added }}
+                              <br/>
+                              {{ comment.body }}
+                          {% endfor %}
+                      {% endif %}
+
                     </td>
 
 
