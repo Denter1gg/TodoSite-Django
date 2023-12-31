@@ -21,19 +21,19 @@
                 <div class="col-md-5 pr-md-1">
                   <div class="form-group">
                     <label>Название</label>
-                    {{ add_task_form.title }}
+                    {{ add_comment.name }}
                   </div>
                 </div>
                 <div class="col-md-3 px-md-1">
                   <div class="form-group">
                     <label>Приоритетность</label>
-                    {{ add_task_form.importance }}
+                    {{ add_comment.body }}
                   </div>
                 </div>
                 <div class="col-md-4 pl-md-1">
                   <div class="form-group">
                     <label>Дата Создания</label>
-                    {{ add_task_form.date_of_staging }}
+                    {{ add_comment.date_added }}
                   </div>
                 </div>
               </div>
@@ -41,14 +41,9 @@
                 <div class="col-md-6 pr-md-1">
                   <div class="form-group">
                     <label>Задача</label>
-                    {{ add_task_form.task }}
+                    {{ add_comment.task }}
                   </div>
                 </div>
-                <div class="form-group">
-                    <label>Статус</label>
-                    {{ add_task_form.status }}
-                </div>
-                    {{ add_task_form.author }}
               </div>
 
               <div class="card-footer">

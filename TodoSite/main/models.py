@@ -47,7 +47,7 @@ class Task(models.Model):
         verbose_name_plural='Задачи'
 
 class Comment(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name="comment")
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     body = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)

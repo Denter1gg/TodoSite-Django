@@ -27,13 +27,10 @@
                       Задача
                     </th>
                     <th>
-                      Описание
-                    </th>
-                    <th>
-                      Дата создания
-                    </th>
-                    <th>
                       Автор
+                    </th>
+                    <th>
+                      Описание
                     </th>
                     <th>
                       Приоритет
@@ -42,7 +39,13 @@
                       Статус
                     </th>
                     <th>
+                      Дата создания
+                    </th>
+                    <th>
                       Комментарии
+                    </th>
+                    <th>
+                      Действия
                     </th>
                   </tr>
                 </thead>
@@ -51,16 +54,13 @@
                 {% for task in tasks %}
                   <tr>
                     <td>
-                      {{ task.title }}
-                    </td>
-                    <td>
                       {{ task.task }}
                     </td>
                     <td>
-                      {{ task.date_of_staging }}
+                      {{ task.author }}
                     </td>
                     <td>
-                      {{ task.author }}
+                      {{ task.title }}
                     </td>
                     <td>
                       {{ task.importance }}
@@ -69,245 +69,34 @@
                       {{ task.status }}
                     </td>
                     <td>
-                      {% if not task.comments.all %}
-<!--                            Комментариев нет -->
-                      <a href="#">Добавить</a>
-                      {% else %}
-                          {% for comments in task.comments.all %}
-                              {{ comment.name }} -
-                              {{ comment.date_added }}
-                              <br/>
-                              {{ comment.body }}
-                          {% endfor %}
-                      {% endif %}
-
+                      {{ task.date_of_staging }}
                     </td>
+                    <td>
+                      {% for comment in comments %}
+                        {% if task == comment.task %}
+                          <div class="alert" style="background-color: rgb(157, 127, 255);"> {{ comment.body }}</div>
+                        {% else %}
 
-
-                      {{ empty }}
+                        {% endif %}
+                      {% empty %}
+                        Коментариев в системе нет
+                      {% endfor %}
+                    </td>
+                    <td>
+                      <a class="btn btn-sm btn-primary" href="{% url 'create_comment' %}">Добавить комент</a>
+                    </td>
                   </tr>
+                {% empty %}
+                  Нет записей
                 {% endfor %}
 
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Minerva Hooper-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Curaçao-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Sinaai-Waas-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $23,789-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Sage Rodriguez-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Netherlands-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Baileux-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $56,142-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Philip Chaney-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Korea, South-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Overland Park-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $38,735-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Doris Greene-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Malawi-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Feldkirchen in Kärnten-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $63,542-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Mason Porter-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Chile-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Gloucester-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $78,615-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Jon Porter-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Portugal-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Gloucester-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $98,615-->
-<!--                    </td>-->
-<!--                  </tr>-->
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
-<!--      <div class="col-md-12">-->
-<!--        <div class="card  card-plain">-->
-<!--          <div class="card-header">-->
-<!--            <h4 class="card-title"> Table on Plain Background</h4>-->
-<!--            <p class="category"> Here is a subtitle for this table</p>-->
-<!--          </div>-->
-<!--          <div class="card-body">-->
-<!--            <div class="table-responsive">-->
-<!--              <table class="table tablesorter " id="">-->
-<!--                <thead class=" text-primary">-->
-<!--                  <tr>-->
-<!--                    <th>-->
-<!--                      Name-->
-<!--                    </th>-->
-<!--                    <th>-->
-<!--                      Country-->
-<!--                    </th>-->
-<!--                    <th>-->
-<!--                      City-->
-<!--                    </th>-->
-<!--                    <th class="text-center">-->
-<!--                      Salary-->
-<!--                    </th>-->
-<!--                  </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Dakota Rice-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Niger-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Oud-Turnhout-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $36,738-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Minerva Hooper-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Curaçao-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Sinaai-Waas-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $23,789-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Sage Rodriguez-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Netherlands-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Baileux-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $56,142-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Philip Chaney-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Korea, South-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Overland Park-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $38,735-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Doris Greene-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Malawi-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Feldkirchen in Kärnten-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $63,542-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Mason Porter-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Chile-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Gloucester-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $78,615-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      Jon Porter-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Portugal-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                      Gloucester-->
-<!--                    </td>-->
-<!--                    <td class="text-center">-->
-<!--                      $98,615-->
-<!--                    </td>-->
-<!--                  </tr>-->
-<!--                </tbody>-->
-<!--              </table>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+
     </div>
   </div>
 

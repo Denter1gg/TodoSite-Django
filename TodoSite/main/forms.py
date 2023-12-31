@@ -12,9 +12,6 @@ class TaskForm(ModelForm):
                                     widget=forms.Select(attrs={'style': 'display:none;', }))
 
 
-
-
-
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super(TaskForm, self).__init__(*args, **kwargs)
@@ -45,6 +42,30 @@ class TaskForm(ModelForm):
             # }),
             "status": Select(choices=Task.STATUS_CHOICES, attrs={
                 'class': 'form-control',
+            }),
+        }
+
+class CommentForm(ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ["task", "name", "body", "date_added"]
+        widgets = {
+            "task": TextInput(attrs={
+                'class':'form-control',
+                'placeholder': 'Введите название задачи',
+            }),
+            "name": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите название задачи',
+            }),
+            "body": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите название задачи',
+            }),
+            "date_added": DateInput(attrs={
+                'class': 'form-control',
+                # 'disabled': 'True',
             }),
         }
 
