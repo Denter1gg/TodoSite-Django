@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path
 from . import views
+from django.conf import settings
 
 urlpatterns = [
 
@@ -7,4 +9,7 @@ urlpatterns = [
     path('create_task/', views.create_task, name="create_task"),
     path('create_comment/', views.create_comment, name="create_comment"),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

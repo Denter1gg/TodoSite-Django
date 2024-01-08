@@ -42,6 +42,9 @@
                       Дата создания
                     </th>
                     <th>
+                      Исполнители
+                    </th>
+                    <th>
                       Комментарии
                     </th>
                     <th>
@@ -70,6 +73,9 @@
                     </td>
                     <td>
                       {{ task.date_of_staging }}
+                    </td>
+                    <td>
+                      {{ task.executor }}
                     </td>
                     <td>
                       {% for comment in comments %}

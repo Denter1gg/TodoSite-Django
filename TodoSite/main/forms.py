@@ -8,6 +8,11 @@ class TaskForm(ModelForm):
 
     input_formats=['%d.%m.%Y'],
 
+    executor = forms.ModelChoiceField(queryset=User.objects.all(), required=False, widget=forms.Select(attrs={'class' : 'selectpicker',
+                                                                                                            'name' : 'text',
+                                                                                                            'id' : 'executor_id',
+                                                                                                            }))
+
     author = forms.ModelChoiceField(queryset=User.objects.all(), initial=User.objects.first(), required=False,
                                     widget=forms.Select(attrs={'style': 'display:none;', }))
 
@@ -19,7 +24,7 @@ class TaskForm(ModelForm):
 
     class Meta:
         model = Task
-        fields = ["title", "task", "importance", "author", "date_of_staging", "status"] # "comments",
+        fields = ["title", "task", "importance", "author", "date_of_staging", "status", "executor"]
         widgets = {
             "title": TextInput(attrs={
                 'class':'form-control',
@@ -65,7 +70,7 @@ class CommentForm(ModelForm):
             }),
             "date_added": DateInput(attrs={
                 'class': 'form-control',
-                # 'disabled': 'True',
+                'disabled': 'True',
             }),
         }
 

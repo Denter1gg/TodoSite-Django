@@ -1,7 +1,13 @@
-from django.shortcuts import render, redirect
+import uuid
 
-from .forms import TaskForm
-from .models import Task, Comment
+from PIL import Image as PILImage
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render, redirect
+from django.utils.text import slugify
+
+from .forms import *
+from .models import *
+
 
 ASSETS_ROOT = "/static/assets"
 
@@ -19,6 +25,10 @@ def tables(request):
     return render(request, 'main/tables.html', context)
 
 
+class PILImage:
+    pass
+
+
 def create_task(request):
     if request.method == 'POST':
 
@@ -30,6 +40,26 @@ def create_task(request):
             task.author = request.user
 
             task.save()
+
+            image_files = request.FILES.getlist('image')
+            # except Exception as e:
+            #     print(e)
+            for image_file in image_files:
+                print(image_file)
+                PILImage.open(image_file)
+                fs = FileSystemStorage()
+                unique_filename = f"{uuid.uuid4()}_{slugify(image_file.name)}"
+                # сохранение файлa на сервере
+                filename = fs.save(unique_filename, image_file)
+
+                image_path = fs.url(filename)
+
+                # создание файла
+                image = Image.objects.create(
+                    task=task,
+                    image=image_path,
+                )
+
             print(
                 f'Создана Задача с айди {task.pk}, автор задачи: {task.author}, название задачи: {task.title}, дата создания: {task.date_of_staging}.')
             return redirect('home')
@@ -48,7 +78,7 @@ def create_task(request):
 def create_comment(request):
     if request.method == 'POST':
 
-        add_comment = Comment(request.POST, user=request.user)
+        add_comment = CommentForm(request.POST, user=request.user)
 
         if add_comment.is_valid():
 
@@ -62,10 +92,10 @@ def create_comment(request):
         else:
             print('Форма неверная')
     else:
-        add_comment = TaskForm()
+        add_comment = CommentForm()
 
     context = {
         'ASSETS_ROOT': ASSETS_ROOT,
-        'add_task_form': add_comment,
+        'add_comment': add_comment,
     }
     return render(request, 'main/create-comment.html', context)
