@@ -2,7 +2,7 @@ import uuid
 
 from PIL import Image as PILImage
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 
 from .forms import *
@@ -23,10 +23,6 @@ def tables(request):
     }
 
     return render(request, 'main/tables.html', context)
-
-
-class PILImage:
-    pass
 
 
 def create_task(request):
@@ -99,3 +95,14 @@ def create_comment(request):
         'add_comment': add_comment,
     }
     return render(request, 'main/create-comment.html', context)
+
+def edit_task_view(request, task_slug):
+
+    task_for_edit = get_object_or_404(Task, slug=task_slug)
+
+
+    context = {
+        'task_for_edit': task_for_edit,
+    }
+
+    return render(request, 'main/edit_task.html', context)

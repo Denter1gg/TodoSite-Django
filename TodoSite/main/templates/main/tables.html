@@ -89,7 +89,7 @@
                       {% endfor %}
                     </td>
                     <td>
-                      <a class="btn btn-sm btn-primary" href="{% url 'create_comment' %}">Добавить комент</a>
+                      <a class="btn btn-sm btn-primary" href="{% url 'edit_task' task_slug=task.slug %}">Открыть задачу</a>
                     </td>
                   </tr>
                 {% empty %}

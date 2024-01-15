@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
+from django.utils.text import slugify
+
+
 class Task(models.Model):
 
     STATUS_CHOICES = (
@@ -25,11 +28,15 @@ class Task(models.Model):
     # comments = models.TextField('Комментарии', null=True, blank=True)
     executor = models.ForeignKey(User, verbose_name='Исполнители', on_delete=models.CASCADE, null=True, blank=True, max_length=50, related_name='task_executor')
     status = models.CharField('Статус', max_length=50, choices=STATUS_CHOICES, default='Новая Задача')
-
+    slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name='URL', null=True, blank=True)
+    number = models.IntegerField('Номер', default='1')
 
     def save(self, *args, **kwargs):
         print("Saving task...")
 
+
+        slug_text = f'{self.title}-{self.id}'
+        self.slug = slugify(slug_text)
 
         user = kwargs.pop('user', None)
         if user:
