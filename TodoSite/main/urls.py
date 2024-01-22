@@ -9,6 +9,8 @@ urlpatterns = [
     path('create_task/', views.create_task, name="create_task"),
     path('create_comment/', views.create_comment, name="create_comment"),
     path('edit_task/<slug:task_slug>/', views.edit_task_view, name='edit_task'),
+    path('add_messages/', views.add_messages_view, name='add_messages'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

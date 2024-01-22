@@ -50,6 +50,32 @@ class TaskForm(ModelForm):
             }),
         }
 
+class EditTaskForm(ModelForm):
+    class Meta:
+        model = Task
+        fields = ["title", "task", "importance", "status", "executor"]
+        widget = {
+            "title": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите название задачи',
+            }),
+            "task": Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Опишите свою задачу',
+            }),
+            "importance": Select(choices=Task.IMPORTANCE, attrs={
+                'class': 'form-control',
+            }),
+            "date_of_staging": DateInput(attrs={
+                'class': 'form-control',
+                'disabled': 'True',
+            }),
+            "status": Select(choices=Task.STATUS_CHOICES, attrs={
+                'class': 'form-control',
+            }),
+        }
+
+
 class CommentForm(ModelForm):
 
     class Meta:
@@ -57,7 +83,7 @@ class CommentForm(ModelForm):
         fields = ["task", "name", "body", "date_added"]
         widgets = {
             "task": TextInput(attrs={
-                'class':'form-control',
+                'class': 'form-control',
                 'placeholder': 'Введите название задачи',
             }),
             "name": TextInput(attrs={

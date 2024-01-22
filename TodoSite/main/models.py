@@ -65,3 +65,17 @@ class Comment(models.Model):
 class Image(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='images', null=True, verbose_name='задача',)
     image = models.ImageField('Изображение', null=True, upload_to='images/', blank=True)
+
+class ChatMessage(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, verbose_name='Задача',)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Отправитель',)
+    message = models.TextField('Сообщение', blank=True, null=True, )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создано в',)
+
+    def __str__(self):
+
+        return f"{self.sender} {self.message}"
+
+    class Meta:
+        verbose_name = 'Чат'
+        verbose_name_plural = 'Чаты'

@@ -20,49 +20,44 @@
               <div class="row">
                 <div class="col-md-5 pr-md-1">
                   <div class="form-group">
-                    <label>Название</label>
-                    {{ add_task_form.title }}
+                    <label>Название:</label>
+                    {{ form.title }}
                   </div>
                 </div>
                 <div class="col-md-3 px-md-1">
                   <div class="form-group">
-                    <label>Приоритетность</label>
-                    {{ add_task_form.importance }}
+                    <label>Приоритетность:</label>
+                    {{ form.importance }}
                   </div>
                 </div>
-                <div class="col-md-4 pl-md-1">
-                  <div class="form-group">
-                    <label>Дата Создания</label>
-                    {{ add_task_form.date_of_staging }}
-                  </div>
-                </div>
+
               </div>
               <div class="row">
                 <div class="col-md-6 pr-md-1">
                   <div class="form-group">
-                    <label>Задача</label>
-                    {{ add_task_form.task }}
+                    <label>Задача:</label>
+                    {{ form.task }}
                   </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Статус</label>
-                    {{ add_task_form.status }}
+                    <label>Статус:</label>
+                    {{ form.status }}
                 </div>
 
               </div>
               <div class="row">
                 <div class="col-md-6 pr-md-1">
                   <div class="form-group">
-                    <label>Исполнители</label>
-                    {{ add_task_form.executor }}
+                    <label>Исполнители:</label>
+                    {{ form.executor }}
                   </div>
                 </div>
               </div>
               <input type="file" class="form-control form-control-sm" name="image"  multiple>
               <span>{{ error }}</span>
               <div class="card-footer">
-                <button type="submit" class="btn btn-fill btn-primary">Создать</button>
+                <button type="submit" class="btn btn-fill btn-primary">Сохранить</button>
               </div>
 
             </form>
@@ -72,36 +67,23 @@
       <div class="col-md-4">
         <div class="card card-user">
           <div class="card-body">
-            <p class="card-text">
-              <div class="author">
-                <div class="block block-one"></div>
-                <div class="block block-two"></div>
-                <div class="block block-three"></div>
-                <div class="block block-four"></div>
-                <a href="javascript:void(0)">
-                  <img class="avatar" src="{{ ASSETS_ROOT }}/img/emilyz.jpg" alt="...">
-                  <h5 class="title">Mike Andrew</h5>
-                </a>
-                <p class="description">
-                  Ceo/Co-Founder
-                </p>
-              </div>
-            </p>
-            <div class="card-description">
-              Do not be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+            <div class="form-group" id="messages-container">
+
+
             </div>
           </div>
           <div class="card-footer">
             <div class="button-container">
-              <button href="javascript:void(0)" class="btn btn-icon btn-round btn-facebook">
-                <i class="fab fa-facebook"></i>
-              </button>
-              <button href="javascript:void(0)" class="btn btn-icon btn-round btn-twitter">
-                <i class="fab fa-twitter"></i>
-              </button>
-              <button href="javascript:void(0)" class="btn btn-icon btn-round btn-google">
-                <i class="fab fa-google-plus"></i>
-              </button>
+              <form method="post" id="messagesForm">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-8">
+                    <input type="text" class="form-control" placeholder="Введите сообщение" name="message">
+                  </div>
+                  <button type="button" id="sendMessage_Button" class="btn btn-sm">Отправть</button>
+                  <input type="file" class="btn btn-sm" id="image_button_id" name="image" multiple>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -111,5 +93,64 @@
 
 {% endblock content %}
 
+
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
+
+<script>
+
+var sendMessageButton = document.getElementById('sendMessage_Button');
+
+
+$(docment).ready(function(){
+
+  var sendMessageButton = document.getElementById('sendMessage_Button');
+
+
+  sendMessageButton.addEventListener('click', function(){
+    console.log("sendMessageButton clicked");
+    sendMessage(event,taskId);
+    event.preventDefault();
+    sendMessageButton.setAttribute('disabled', true);
+   });
+})
+
+
+function sendMessage(event){
+  event.preventDefault();
+  var csrfToken = $('#messageForm input[name="csrfmiddlewaretoken"]').val();
+  var taskId = '{{ task_for_edit.id }}';
+      //Получить данные формы
+
+  var formData = new FormData($('#messageForm')[0]);
+  formData.appennd('task_id', taskId);
+
+  $.ajax({
+      url: '/add_messages/',
+      type: 'POST',
+      data: formData,
+
+      success: function(response) {
+          //Обработка успешнго обноваления записи
+          $('#messages-container').html(response.html);
+          $('input[name="message"]').val('');
+          //location.reload();
+          var scrollContainer = $('#scroll_container');
+          scrollContainer.scrollTop(scrollContainer.prop("scrollHeight"));
+          sendMessageButton.removeAttribute('disabled');
+          console.log("success")
+
+      },
+      error: function(xhr, status, error) {
+          //Обработка ошибки
+          console.log("No success", error)
+      }
+  });
+
+
+
+}
+
+
+
+</script>
